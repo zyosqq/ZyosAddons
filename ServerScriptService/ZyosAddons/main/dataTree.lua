@@ -22,7 +22,7 @@ local dataTree = {
 			}
 		},
 		[2] = {
-			["Name"] = "spawn",
+			["Name"] = "CFrames",
 			["Values"] = {
 				[1] = {
 					["Instance"] = "CFrameValue",
@@ -32,13 +32,30 @@ local dataTree = {
 				},
 				[2] = {
 					["Instance"] = "CFrameValue",
-					["StartValue"] = CFrame.new(),
+					["StartValue"] = CFrame.new(-982, 5.5, -990),
 					["Save"] = false,
 					["Name"] = "spawnCFrame"
 				},
 			}
-		}
+		},
+		[3] = {
+			["Name"] = "touches",
+			["Values"] = {
+				[1] = {
+					["Instance"] = "NumberValue",
+					["StartValue"] = 0,
+					["Save"] = false,
+					["Name"] = "ID"
+				},
+				[2] = {
+					["Instance"] = "NumberValue",
+					["StartValue"] = 0,
+					["Save"] = false,
+					["Name"] = "cValue"
+				},
 
+			}
+		},
 	}
 }	
 

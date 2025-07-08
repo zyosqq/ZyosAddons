@@ -3,10 +3,20 @@ Author: Zyos
 Date: 7/7/2025 MM/DD/YY
 Description: Setup touches (for checkpoints)
 IMPORTANT: Use the hyrachie provided in workspace (workspace.ZyosAddons.touches)
+Uses: CFrames
 ]]
 
+--Modules
+local CFrames = require(script.Parent.CFrames)
+
+--Settings
+local S_FOLDER = workspace.ZyosAddons.touches
+
+--XXX--
+
 local touches = {}
-touches.Folder = workspace.ZyosAddons.touches
+
+touches.Folder = S_FOLDER
 touches.Values = {
 	["Starts"] = {},
 	["Ends"] = {},
@@ -37,16 +47,6 @@ function touches:_setupCheckpoints(cFolder)
 	end
 end
 
-function touches:_setupListeners()
-	local startListener = function()
-		for i, v in touches.Values["Starts"] do
-			v.Touched:Connect(function(hit)
-				
-			end)
-		end
-	end
-end
-
 function touches:connect()
 	local copy = table.clone(self.Values)
 	
@@ -73,6 +73,41 @@ end
 function touches:_onTouch(hit, part)
 	local player = game.Players:GetPlayerFromCharacter(hit.Parent)
 	if not player then return end
+	
+	if part.Parent.Name == "cFolder" then
+		if not self:_checkCValue(player, part) then return end
+		
+		local ID = part.Parent.Parent.ID.Value
+		if player.touches.ID.Value ~= ID then return end
+		
+		player.touches.cValue.Value = part.cValue.Value
+		
+		CFrames:set(player, part.CFrame)
+		return
+	end
+	
+	if part:FindFirstChild("Start") then
+		local ID = part.Parent.ID.Value
+		if player.touches.ID.Value == ID then return end
+		
+		player.touches.ID.Value = ID
+		
+		CFrames:set(player, part.CFrame)
+		return
+	end
+	
+	player.touches.cValue.Value = 0
+	player.touches.ID.Value = 0
+	player.CFrames.currentCFrame.Value = CFrame.new()
+	CFrames:spawn(player)
+end
+
+function touches:_checkCValue(player, part)
+	local cValue = part.cValue
+	local plrCValue = player.touches.cValue
+	
+	if cValue.Value <= plrCValue.Value then return false end
+	return true
 end
 
 function touches:disconnect()
@@ -90,6 +125,5 @@ function touches:disconnect()
 		["Checkpoints"] = {}
 	}
 end
-
 
 return touches
