@@ -12,10 +12,12 @@ local main =  script.Parent.main --Main Logic
 
 local data_ = require(main.data_)
 local touches = require(main.touches)
+local CFrames = require(main.CFrames)
 
 --Settings
 local S_DATA = true
-local S_TRAILS = true
+local S_TOUCHES = true
+local S_CFRAMES = true
 
 --XXX--
 
@@ -30,4 +32,16 @@ Players.PlayerRemoving:Connect(function(player)
 end)
 
 --Setup Touches
-if S_TRAILS then touches:setup() end
+if S_TOUCHES then touches:setup() end
+
+--Setup CFrames
+if S_CFRAMES then
+	Players.PlayerAdded:Connect(function(player)
+		player:LoadCharacter()
+		CFrames:spawn(player)
+		
+		player.CharacterAdded:Connect(function(character)
+			CFrames:reset(player)
+		end)
+	end)
+end

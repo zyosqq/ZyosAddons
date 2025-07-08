@@ -3,7 +3,7 @@ Author: Zyos
 Date: 7/7/2025 MM/DD/YY
 Description: Setup touches (for checkpoints)
 IMPORTANT: Use the hyrachie provided in workspace (workspace.ZyosAddons.touches)
-Uses: CFrames
+Uses: CFrames, data_
 ]]
 
 --Modules
@@ -82,7 +82,7 @@ function touches:_onTouch(hit, part)
 		
 		player.touches.cValue.Value = part.cValue.Value
 		
-		CFrames:set(player, part.CFrame)
+		CFrames:set(player, part.CFrame, true)
 		return
 	end
 	
@@ -92,7 +92,7 @@ function touches:_onTouch(hit, part)
 		
 		player.touches.ID.Value = ID
 		
-		CFrames:set(player, part.CFrame)
+		CFrames:set(player, part.CFrame, true)
 		return
 	end
 	
